@@ -47,6 +47,20 @@ void avl_init(avl_compare_t cmp, avl_destroy_t destroy) {
   return avl;
 }
 
+void *avl_get(avl_t *avl, const char *key) {
+  if(avl->size == 0) return NULL;
+  node_t* parent = NULL;
+  node_t* node = get_node(avl->root, &parent, key, avl->cmp);
+  return node ? node->data : NULL;
+}
+
+bool avl_has_key(avl_t *avl, const char *key) {
+  if(avl->size == 0) return false;
+  node_t* parent = NULL;
+  node_t* node = get_node(avl->root, &parent, key, avl->cmp);
+  return node != NULL;
+}
+
 size_t avl_size(avl_t *avl) {
   return avl->size;
 }
