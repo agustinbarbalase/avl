@@ -32,3 +32,7 @@ void avl_init(avl_compare_t cmp, avl_destroy_t destroy) {
 
   return avl;
 }
+
+size_t avl_size(avl_t *avl) {
+  return avl->size;
+}
