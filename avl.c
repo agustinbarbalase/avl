@@ -36,3 +36,21 @@ void avl_init(avl_compare_t cmp, avl_destroy_t destroy) {
 size_t avl_size(avl_t *avl) {
   return avl->size;
 }
+
+void _avl_destroy(node_t* current, avl_destroy_t destroy) {
+  if(!current) return;
+
+  _avl_destroy(current->left, destroy);
+  _avl_destroy(current->right, destroy);
+  
+  free(current->key);
+  if(destroy) { 
+    destroy(current->data); 
+  }
+  free(current);
+}
+
+void avl_destroy(avl_t *avl) {
+  _avl_destroy(avl->root, avl->destroy);
+  free(avl);
+}
