@@ -19,6 +19,20 @@ typedef struct avl {
   avl_destroy_t destroy;
 } avl_t;
 
+node_t* get_node(node_t* current, node_t** parent, const char *key, avl_compare_t cmp) {
+  if(current && cmp(current->key, key) == 0) return current;
+
+  *parent = current;
+  
+  if(current->left && cmp(current->key, key) > 0) {
+    return get_node(current->left, key, parent, cmp);
+  } else if(current->right) {
+    return get_node(current->right, key, parent, cmp);
+  }
+
+  return NULL;
+}
+
 void avl_init(avl_compare_t cmp, avl_destroy_t destroy) {
   avl_t *avl = malloc(sizeof(avl_t*));
   if (!avl) {
