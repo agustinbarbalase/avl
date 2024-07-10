@@ -18,3 +18,17 @@ typedef struct avl {
   avl_compare_t cmp;
   avl_destroy_t destroy;
 } avl_t;
+
+void avl_init(avl_compare_t cmp, avl_destroy_t destroy) {
+  avl_t *avl = malloc(sizeof(avl_t*));
+  if (!avl) {
+    return NULL;
+  }
+
+  avl->size = 0;
+  avl->root = NULL;
+  avl->cmp = cmp;
+  avl->destroy = destroy;
+
+  return avl;
+}
