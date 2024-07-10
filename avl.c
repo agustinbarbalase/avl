@@ -76,6 +76,51 @@ bool avl_insert(avl_t *avl, const char *key, void *data) {
   return true;
 }
 
+node_t* get_replacement_node(node_t* current) {
+  node_t* replacement_node = current->left;
+
+  while(replacement_node->right) {
+    replacement_node = replacement_node->right;
+  }
+
+  return replacement_node;
+}
+
+void *avl_delete(avl_t *avl, const char *key) {
+  node_t* parent = NULL;
+  node_t* node = get_node(avl->root, &parent, key, avl->cmp);
+  if(!node) return;
+
+  void* data = node->data;
+  if(node->left && node->right) {
+    node_t* replacement_node = get_replacement_node(node);
+    char* replacement_key = strdup(replacement_node->key);
+    void* replacement_data = avl_delete(avl, replacement_node->key);
+    free(node->key);
+
+    node->key = replacement_key;
+    node->data = replacement_data;
+  } else {
+    node_t* new_child = node->left ? node->left : node->right;
+    
+    if(!parent) {
+      avl->root = new_child;
+    } else {
+      if(parent->left && avl->cmp(parent->left->key, node->key) == 0) {
+        parent->left = new_child;
+      } else if(parent->right) {
+        parent->right = new_child;
+      }
+    }
+    
+    free(node->key);
+    free(node);
+    avl->size--;
+  }
+
+  return data;
+}
+
 void *avl_get(avl_t *avl, const char *key) {
   if(avl->size == 0) return NULL;
   node_t* parent = NULL;
