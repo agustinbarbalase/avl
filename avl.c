@@ -33,6 +33,24 @@ node_t* get_node(node_t* current, node_t** parent, const char *key, avl_compare_
   return NULL;
 }
 
+node_t* new_node(const char* key, void* data) {
+  node_t* node = malloc(sizeof(node_t*));
+  if(!node) return NULL;
+
+  node->key = strdup(key);
+  if(!node->key) {
+    free(node);
+    return NULL;
+  }
+  
+  node->data = data;
+  node->balance = 0;
+  node->left = NULL;
+  node->right = NULL;
+
+  return node;
+}
+
 void avl_init(avl_compare_t cmp, avl_destroy_t destroy) {
   avl_t *avl = malloc(sizeof(avl_t*));
   if (!avl) {
