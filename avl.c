@@ -20,13 +20,15 @@ typedef struct avl {
 } avl_t;
 
 node_t* get_node(node_t* current, node_t** parent, const char *key, avl_compare_t cmp) {
-  if(current && cmp(current->key, key) == 0) return current;
+  if(!current) return NULL;
+
+  if(cmp(current->key, key) == 0) return current;
 
   *parent = current;
   
-  if(current->left && cmp(current->key, key) > 0) {
+  if(cmp(current->key, key) > 0) {
     return get_node(current->left, key, parent, cmp);
-  } else if(current->right) {
+  } else if(cmp(current->key, key) < 0) {
     return get_node(current->right, key, parent, cmp);
   }
 
