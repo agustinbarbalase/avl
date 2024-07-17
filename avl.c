@@ -67,12 +67,9 @@ void avl_init(avl_compare_t cmp, avl_destroy_t destroy) {
   return avl;
 }
 
-bool avl_insert(avl_t *avl, const char *key, void *data) {
-  node_t* parent = NULL;
-  node_t* node = get_node(avl->root, &parent, key, avl->cmp);
-  
-  if(!node) {
-    node = new_node(key, data);
+bool _avl_insert(avl_t* avl, node_t* current, node_t* parent, const char* key, void* data) {
+  if(!current) {
+    node_t* node = new_node(key, data);
     if(!node) return false;
     
     if(!parent) {
@@ -86,14 +83,27 @@ bool avl_insert(avl_t *avl, const char *key, void *data) {
     }
 
     avl->size++;
-  } else {
+
+    return true;
+  } 
+
+  if(current && avl->cmp(current->key, key) == 0) {
     if(avl->destroy) {
-      avl->destroy(node->data);
+      avl->destroy(current->data);
     }
-    node->data = data;
+    current->data = data;
+    return true;
   }
-  
-  return true;
+
+  if(current && avl->cmp(current->key, key) > 0) {
+    return _avl_insert(avl, current->left, current, key, data);
+  } else if(current && avl->cmp(current->key, key) < 0) {
+    return _avl_insert(avl, current->right, current, key, data);
+  }
+}
+
+bool avl_insert(avl_t *avl, const char *key, void *data) {
+  return _avl_insert(avl, avl->root, NULL, key, data);
 }
 
 node_t* get_replacement_node(node_t* current) {
