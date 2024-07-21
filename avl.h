@@ -5,7 +5,7 @@ typedef struct avl avl_t;
 typedef int (*avl_compare_t)(const char *, const char *);
 typedef void (*avl_destroy_t)(void *);
 
-void avl_init(avl_compare_t cmp, avl_destroy_t destroy);
+avl_t* avl_init(avl_compare_t cmp, avl_destroy_t destroy);
 
 bool avl_insert(avl_t *avl, const char *key, void *data);
 

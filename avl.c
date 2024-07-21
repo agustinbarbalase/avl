@@ -54,8 +54,8 @@ node_t* new_node(const char* key, void* data) {
   return node;
 }
 
-void avl_init(avl_compare_t cmp, avl_destroy_t destroy) {
-  avl_t *avl = malloc(sizeof(avl_t*));
+avl_t* avl_init(avl_compare_t cmp, avl_destroy_t destroy) {
+  avl_t *avl = malloc(sizeof(avl_t));
   if (!avl) {
     return NULL;
   }
