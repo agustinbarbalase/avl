@@ -6,7 +6,7 @@
 typedef struct node node_t;
 
 struct node {
-  const char *key;
+  char *key;
   void *data;
   size_t balance;
   node_t *left;
