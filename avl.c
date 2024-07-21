@@ -97,9 +97,9 @@ bool _avl_insert(avl_t* avl, node_t* current, node_t* parent, const char* key, v
   }
 
   if(current && avl->cmp(current->key, key) > 0) {
-    return _avl_insert(avl, current->left, current, key, data);
+    if(!_avl_insert(avl, current->left, current, key, data)) return false;
   } else if(current && avl->cmp(current->key, key) < 0) {
-    return _avl_insert(avl, current->right, current, key, data);
+    if(!_avl_insert(avl, current->right, current, key, data)) return false;
   }
 }
 
