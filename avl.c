@@ -28,9 +28,9 @@ node_t* get_node(node_t* current, node_t** parent, const char *key, avl_compare_
   *parent = current;
   
   if(cmp(current->key, key) > 0) {
-    return get_node(current->left, key, parent, cmp);
+    return get_node(current->left, parent, key, cmp);
   } else if(cmp(current->key, key) < 0) {
-    return get_node(current->right, key, parent, cmp);
+    return get_node(current->right, parent, key, cmp);
   }
 
   return NULL;
