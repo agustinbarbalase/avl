@@ -1,3 +1,4 @@
+#define _POSIX_C_SOURCE 200809L 
 #include "avl.h"
 #include <string.h>
 #include <malloc.h>
