@@ -37,7 +37,7 @@ node_t* get_node(node_t* current, node_t** parent, const char *key, avl_compare_
 }
 
 node_t* new_node(const char* key, void* data) {
-  node_t* node = malloc(sizeof(node_t*));
+  node_t* node = malloc(sizeof(node_t));
   if(!node) return NULL;
 
   node->key = strdup(key);
